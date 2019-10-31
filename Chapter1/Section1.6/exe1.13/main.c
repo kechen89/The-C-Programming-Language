@@ -40,16 +40,33 @@ int main()
         }
     }
     
-    //print the histogram
-    printf("The histogram:\n");
+    //print the histogram with horizontal bar
+    printf("The horizontal histogram:\n");
     for (i = 0; i < MAXL; ++i)
     {
-        printf("|%d|",i+1);
+        printf("|%d|",i + 1);
         for (j = 0; j < len[i]; ++j)
         {
-            printf("*");
+            putchar('*');
         }
-        printf("\n");
+        putchar('\n');
     }
+    
+    //print the histogram with vertical bar
+    printf("The vertical histogram:\n");
+    for (i = MAXL; i >= 1; --i)  // vertical axis MAXL, ..., 1
+    {
+        for (j = 0; j < MAXL; ++j)
+        {
+            if (len[j] >= i)
+                putchar('*');
+            else
+                putchar(' ');
+            putchar(' '); 
+        }
+        putchar('\n');
+    }
+    for (i = 0; i < MAXL; ++i)
+        printf("%d|",i + 1);
+    putchar('\n');
 }
-
