@@ -6,7 +6,7 @@
 #define LENGTH 80
 
 int get_line(char line[], int MAX);
-void print_line(char line[], int MAX);
+void print_line(char line[], int length);
 
 int main()
 {
@@ -16,8 +16,10 @@ int main()
     while ( (len = get_line(line, MAXLINE)) > 0)
     {
         if (len > LENGTH)
-            printf("The line is longer than %d\n", MAXLINE);
-            print_line(line, MAXLINE);
+        {
+            printf("Print input line longer than %d: \n", LENGTH);
+            print_line(line, len);
+        }
     }
     return 0;
 }
@@ -40,12 +42,9 @@ int get_line(char line[], int MAX)
     return i;
 }
 
-void print_line(char line[], int MAX)
+void print_line(char line[], int length)
 {
-    int i = 0;
-    while (i < MAX && line[i] != '\0')
-    {
+    int i;
+    for (i = 0; i < length; ++i)
         putchar(line[i]);
-        ++i;
-    }
 }
