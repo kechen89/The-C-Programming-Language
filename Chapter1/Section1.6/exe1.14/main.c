@@ -1,9 +1,9 @@
 #include <stdio.h>
-
-/* program to print a histogram of the frequencies
- * of different characters in its input
- * Use ASCII values
+/* Exercise 1-14. Write a program to print a histogram of the frequencies
+ * of different characters in its input.
  */
+
+ /* Use ASCII values*/
 
 #define MAX 95
 

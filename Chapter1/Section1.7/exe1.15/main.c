@@ -1,4 +1,8 @@
 #include <stdio.h>
+/*Exercise 1-15. Rewrite the temperature conversion program of Section 1.2 to use
+ * a function for conversion.
+ */
+
 /* print Fahrenheit-Celsius table
  * for fahr = 0, 20, ..., 300; floating-point version
  */
