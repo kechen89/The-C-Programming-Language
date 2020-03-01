@@ -15,7 +15,6 @@ int main()
     
     while ( (c = getchar()) != EOF )
     {
-        ++column;
         
         if (c == '\n')
         {
@@ -33,7 +32,10 @@ int main()
             column += tab;
         }
         else
+        {
             putchar(c);
+            ++column;
+        }
     }
     return 0;
 }
