@@ -9,7 +9,7 @@
 
 int main()
 {
-    int column, tab, j, c;
+    int column, nb, j, c;
     
     column = 0;
     
@@ -23,13 +23,13 @@ int main()
         }
         else if (c == '\t')
         {
-            tab = N - column % N;
+            nb = N - column % N;
             
-            for (j = 0; j < tab; ++j)
+            for (j = 0; j < nb; ++j)
             {
                 putchar(' ');
             }
-            column += tab;
+            column += nb;
         }
         else
         {

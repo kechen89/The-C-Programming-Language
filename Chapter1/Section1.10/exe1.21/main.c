@@ -21,20 +21,14 @@ int main()
     
     while ( (c = getchar()) != EOF )
     {
-        ++column;
-        
-        if ( c == '\n')
+
+        if (c == ' ')
         {
-            putchar(c);
-            column = 0;
-            state = OUT;
-            nb = 0;
-        }
-        else if (c == ' ')
-        {
+            ++column;
             ++nb;
             state = IN;
-            if ( (column + 1) % N == 1)
+            
+            if ( (column + 1) % N == 1 && nb != 1)
             {
                 putchar('\t');
                 nb = 0;
@@ -47,12 +41,29 @@ int main()
                 if (nb > 0)
                 {
                     for (; nb > 0; nb--)
-                    putchar(' ');
+                        putchar('*');
                 }
                 state = OUT;
                 nb = 0;
             }
-            putchar(c);
+            
+            if ( c == '\n')
+            {
+                putchar(c);
+                column = 0;
+                state = OUT;
+            }
+            else if (c == '\t')
+            {
+                putchar(c);
+                column += N - column % N;
+            }
+            else
+            {
+                ++column;
+                putchar(c);
+            }
         }
     }
+    
 }
