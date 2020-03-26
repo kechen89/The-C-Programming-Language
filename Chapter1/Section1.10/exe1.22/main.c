@@ -50,11 +50,18 @@ int expand_tab(char *line, int i)
     
     nb = NTABL - (i - 1) % NTABL;
     
-    for (j = 0; j < nb; ++j)
-        line[i - 1 + j] = ' ';
-        
-    i += nb;
-    return i - 1;
+    for (j = 0; j < nb && (i - 1) < NCOL; ++j)
+    {
+        line[i - 1] = ' ';
+        ++i;
+    }
+    if (i - 1 < NCOL)
+        return i - 1;
+    else
+    {
+        print_line(line, i - 2);
+        return 0;
+    }
 }
 
 int find_foldpos(char *line, int i)
