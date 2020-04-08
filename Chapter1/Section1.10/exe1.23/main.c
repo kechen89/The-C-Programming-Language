@@ -3,23 +3,41 @@
  * handle quoted strings and character constants properly. C comments do not nest.
  */
 
+#define IN 1                  /* inside comment */
+#define OUT 0                 /* outside comment */
+
 void remove_comments(char c);
 
-int main()
+int main()      // main function
 {
-    int c;
+    int c, d;
+    int state = OUT;
+    
     while ((c = getchar()) != EOF)
-        remove_comments(c);
+    {
+        if (c == '/' && (d = getchar()) == '*')
+            state = IN;
+        else if (c == '/' && state  == OUT)
+        {
+            putchar(c);
+            putchar(d);
+            continue;
+        }
+            
+        if (c == '*' && (d = getchar()) == '/')
+        {
+            state = OUT;
+            continue;
+        }
+        else if (c == '*' && state == OUT)
+        {
+            putchar(c);
+            putchar(d);
+            continue;
+        }
+            
+        if (state == OUT)
+            putchar(c);
+    }
     return 0;
 }
-
-void remove_comments(char c)
-{
-    if (c == '\' && getchar() == '*')
-        state = IN;
-        
-    if (state == OUT)
-        putchar(c);
-}
-
-
