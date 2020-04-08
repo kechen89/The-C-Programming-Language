@@ -17,27 +17,18 @@ int main()      // main function
     {
         if (c == '/' && (d = getchar()) == '*')
             state = IN;
-        else if (c == '/' && state  == OUT)
-        {
-            putchar(c);
-            putchar(d);
-            continue;
-        }
             
-        if (c == '*' && (d = getchar()) == '/')
+        else if (c == '*' && (d = getchar()) == '/')
         {
             state = OUT;
             continue;
         }
-        else if (c == '*' && state == OUT)
+        else if (state == OUT)
         {
             putchar(c);
+            if (c == '/' || c == '*')
             putchar(d);
-            continue;
         }
-            
-        if (state == OUT)
-            putchar(c);
     }
     return 0;
 }
