@@ -3,31 +3,53 @@
  * handle quoted strings and character constants properly. C comments do not nest.
  */
 
-#define IN 1                  /* inside comment */
-#define OUT 0                 /* outside comment */
-
-void remove_comments(char c);
+#define IN 1                   /* inside comment */
+#define IND 2                  /* inside double slash comment */
+#define OUT 0                  /* outside comment */
+#define INQUATE 1              /* inside quoted strings */
+#define OUTQUATE 0
 
 int main()      // main function
 {
     int c, d;
     int state = OUT;
+    int stateq = OUTQUATE;
     
     while ((c = getchar()) != EOF)
     {
-        if (c == '/' && (d = getchar()) == '*')
-            state = IN;
-            
-        else if (c == '*' && (d = getchar()) == '/')
+        if (c == '\n' && state == IND)
         {
             state = OUT;
-            continue;
+            putchar(c);
         }
-        else if (state == OUT)
+        else if (c == '/' && (d = getchar()) == '*' && stateq == OUTQUATE)
+            state = IN;
+        else if (c == '/' && d == '/' && stateq == OUTQUATE)
+            state = IND;
+        else if (c == '*' && (d = getchar()) == '/' && stateq == OUTQUATE)
+        {
+            state = OUT;
+        }
+        else if (c == '"' && state == OUT)
+        {
+            if (stateq == OUTQUATE)
+            {
+                stateq = INQUATE;
+                putchar(c);
+            }
+            else if (stateq == INQUATE)
+            {
+                stateq = OUTQUATE;
+                putchar(c);
+            }
+        }
+        else if (state == OUT || stateq == INQUATE)
         {
             putchar(c);
             if (c == '/' || c == '*')
-            putchar(d);
+                putchar(d);
+            if (d == '"')
+                stateq = OUTQUATE;
         }
     }
     return 0;
