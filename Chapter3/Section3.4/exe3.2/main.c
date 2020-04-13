@@ -23,6 +23,8 @@ int main()
         ++i;
     }
     
+    t[i] = '\0';
+    
     escape(s, t);
     
     printf("The converted string is\n%s \n", s);
