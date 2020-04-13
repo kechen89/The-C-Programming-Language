@@ -72,7 +72,6 @@ int mybinsearch(int x, int v[], int n)
     
     while (low <= high && x != v[mid])
     {
-        
         if (x < v[mid])
             high = mid - 1;
         else
