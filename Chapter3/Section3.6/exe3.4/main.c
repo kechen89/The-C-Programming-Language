@@ -52,7 +52,7 @@ void itoa_kr(int n, char s[])
 /* can handle the largest negative integer number (-2147483648) in two's complemet number machine */
 void myitoa(int n, char s[])
 {
-    int i, sign;
+    int i, sign = 1;
     
     if (n < 0)                     /* record sign */
         sign = -1;                    /* make n positive */
