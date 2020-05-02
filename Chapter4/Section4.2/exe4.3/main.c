@@ -3,7 +3,7 @@
 #include <ctype.h>
 
 /*
- * Exercise 4.3. Given the basic framework, its's straightforward to extend the calculater. Add the modulus (%) operator and provisions
+ * Exercise 4.3. Given the basic framework, it's straightforward to extend the calculator. Add the modulus (%) operator and provisions
  * for negative numbers.
  */
 
@@ -14,7 +14,7 @@ int getop(char []);
 void push(double);
 double pop(void);
 
-/* reverse Polish calculater */
+/* reverse Polish calculator */
 int main()
 {
     int type;
@@ -40,6 +40,13 @@ int main()
                 op2 = pop();
                 if (op2 != 0.0)
                     push(pop() / op2);
+                else
+                    printf("error: zero divisor\n");
+                break;
+            case '%':
+                op2 = pop();
+                if (op2 != 0.0)
+                    push((int)pop() % (int)op2);
                 else
                     printf("error: zero divisor\n");
                 break;
@@ -91,9 +98,29 @@ int getop(char s[])
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
-    if (!isdigit(c) && c != '.')
+    
+    if (!isdigit(c) && c != '.' && c != '-')
         return c;          /* not a number */
-    i = 0;
+    
+    if (c == '-')
+    {
+        if ( !isdigit(c = getch()) )
+        {
+            if (c != EOF)
+                ungetch(c);
+            return '-';
+        }
+        else
+        {
+            s[0] = '-';
+            s[1] = c;
+        }
+    }
+    
+    if (s[0] == '-')
+        i = 1;
+    else i = 0;
+    
     if (isdigit(c))    /* collect integer part */
         while (isdigit(s[++i] = c = getch()))
             ;
@@ -122,15 +149,4 @@ void ungetch(int c)   /* push character back on input */
         printf("ungetch: too many characters\n");
     else
         buf[bufp++] = c;
-            
 }
-
-
-
-
-
-
-
-
-
-
