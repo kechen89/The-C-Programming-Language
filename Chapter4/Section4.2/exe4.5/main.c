@@ -10,6 +10,7 @@
 
 #define MAXOP 100        /* max size of operand or operator */
 #define NUMBER '0'       /* signal that a number was found */
+#define NAME 'n'         /* signal that a name was found */
 
 int getop(char []);
 void push(double);
@@ -18,6 +19,7 @@ void print(void);
 void duplicate(void);
 void swap(void);
 void clear(void);
+void mathfnc(char s[]);
 
 /* reverse Polish calculator */
 int main()
@@ -67,8 +69,8 @@ int main()
             case 'c':
                 clear();
                 break;
-            case 'sin':
-                push(sin(pop()));
+            case NAME:
+                mathfnc(s);
                 break;
             case '\n':
                 printf("\t%.8g\n",pop());
@@ -148,6 +150,24 @@ void clear()
         val[sp] = 0.0;
 }
 
+/* mathfnc: check string s for supported math functions */
+void mathfnc(char s[])
+{
+    double op2;
+    if (strcmp(s, "sin") == 0)
+        push(sin(pop()));
+    else if (strcmp(s,"cos") == 0)
+        push(cos(pop()));
+    else if (strcmp(s,"exp") == 0)
+        push(exp(pop()));
+    else if (strcmp(s,"pow") == 0) {
+        op2 = pop();
+        push(pow(pop(),op2));
+    }
+    else
+        printf("error: %s not supported\n", s);
+}
+
 int getch(void);
 void ungetch(int);
 
@@ -160,6 +180,19 @@ int getop(char s[])
         ;
     s[1] = '\0';
     i = 0;
+    
+    if (islower(c)) {      /* if sin, exp, and pow*/
+        while (islower(s[++i] = c = getch()))
+            ;
+        s[i] = '\0';
+        if (c != EOF)
+            ungetch(c);
+        if (strlen(s) > 1)
+            return NAME;
+        else
+            return c;
+    }
+    
     if (!isdigit(c) && c != '.' && c != '-')
         return c;          /* not a number */
     
@@ -204,3 +237,4 @@ void ungetch(int c)   /* push character back on input */
     else
         buf[bufp++] = c;
 }
+
