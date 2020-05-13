@@ -111,10 +111,7 @@ int getop(char s[])
             return '-';
         }
         else
-        {
-            s[0] = '-';
             s[1] = c;
-        }
     }
     
     if (s[0] == '-')

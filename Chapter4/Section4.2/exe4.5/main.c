@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>    /* for atof() */
 #include <ctype.h>
+#include <math.h>
+#include <string.h>
 
 /*
- * Exercise 4.4. Add commands to print the top element of the stack without popping, to duplicate it, and to swap the top two elements.
- * Add a command to clear the stack.
+ * Exercise 4.5. Add access to library functions like sin, exp, and pow. See <math.h> in Appendix B, Section 4.
  */
 
 #define MAXOP 100        /* max size of operand or operator */
@@ -65,6 +66,9 @@ int main()
                 break;
             case 'c':
                 clear();
+                break;
+            case 'sin':
+                push(sin(pop()));
                 break;
             case '\n':
                 printf("\t%.8g\n",pop());
@@ -173,7 +177,8 @@ int getop(char s[])
     
     if (s[0] == '-')
         i = 1;
-    else i = 0;
+    else
+        i = 0;
     
     if (isdigit(c))    /* collect integer part */
         while (isdigit(s[++i] = c = getch()))
