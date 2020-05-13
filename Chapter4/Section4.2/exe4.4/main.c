@@ -155,7 +155,7 @@ int getop(char s[])
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
-    
+    i = 0;
     if (!isdigit(c) && c != '.' && c != '-')
         return c;          /* not a number */
     
@@ -168,12 +168,8 @@ int getop(char s[])
             return '-';
         }
         else
-            s[1] = c;
+            s[++i] = c;
     }
-    
-    if (s[0] == '-')
-        i = 1;
-    else i = 0;
     
     if (isdigit(c))    /* collect integer part */
         while (isdigit(s[++i] = c = getch()))
