@@ -5,8 +5,8 @@
 #include <string.h>
 
 /*
- * Exercise 4.7. Write a routine ungets(s) that will push back an entire string onto the input.
- * Should ungets know about buf and bufp, or should it just use ungetch(c)?
+ * Exercise 4.8. Suppose that there will never be more than one character of pushback.
+ * Modify getch and ungetch accordingly.
  */
 
 #define MAXOP 100        /* max size of operand or operator */
@@ -242,22 +242,30 @@ int getop(char s[])
     return NUMBER;
 }
 
-#define BUFSIZE 100
-
-char buf[BUFSIZE];      /* buffer for ungetch */
+char buf;               /* buffer for ungetch */
 int bufp = 0;           /* next free position in buf */
 
 int getch(void)         /* get a (possibly pushed back) character */
 {
-    return (bufp > 0) ? buf[--bufp] : getchar();
+
+    if (bufp > 0)
+    {
+        bufp = 0;
+        return buf;
+    }
+    else
+        return getchar();
 }
 
 void ungetch(int c)   /* push character back on input */
 {
-    if (bufp >= BUFSIZE)
+    if (bufp != 0)
         printf("ungetch: too many characters\n");
     else
-        buf[bufp++] = c;
+    {
+        buf = c;
+        bufp = 1;
+    }
 }
 
 void ungets(char s[])
