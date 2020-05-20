@@ -5,6 +5,7 @@
  */
 
 /* reverse Polish calculator */
+
 int main()
 {
     int type, var;
