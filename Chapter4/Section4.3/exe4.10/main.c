@@ -214,6 +214,7 @@ int getop(char line[], char s[], int *k)
         while (islower(s[++i] = c = line[(*k)++]))
             ;
         s[i] = '\0';
+        (*k)--;        //unget char (such as '3.1415926 2 / sin1+')
         if (strlen(s) > 1)
             return NAME;
         else
@@ -226,7 +227,10 @@ int getop(char line[], char s[], int *k)
     if (c == '-')
     {
         if ( !isdigit(c = line[(*k)++]) )
+        {
+            (*k)--;      //unget char (such as '3 A = 2 A-A +')
             return '-';
+        }
         else
             s[++i] = c;
     }
@@ -238,6 +242,7 @@ int getop(char line[], char s[], int *k)
         while (isdigit(s[++i] = c = line[(*k)++]))
             ;
     s[i] = '\0';
+    (*k)--;       //unget char (such as '1 2+')
     return NUMBER;
 }
 
