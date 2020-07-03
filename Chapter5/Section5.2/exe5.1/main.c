@@ -12,6 +12,11 @@ void ungetch(int);
 int getint(int *pn);
 
 
+#define BUFSIZE 100
+
+char buf[BUFSIZE];   /* buffer for ungetch */
+int bufp = 0;        /* next free position in buf */
+
 int main()
 {
     int n, c, array[SIZE];
@@ -19,12 +24,10 @@ int main()
     n = 0;
     while (n < SIZE && (c = getint(&array[n])) != EOF)
     {
-        if (c == 0)
-        {
-            getch();   /* remove pushed back characte to avoid infinite loop */
-        }
-        else
-            n++;
+        for (;bufp>0;)
+            getch();
+        if (c != 0 && c != '+' && c != '-')
+            ++n;
     }
     printf("\n%d\n",n);
     for (int i = 0; i <= n; i++)
@@ -36,7 +39,7 @@ int main()
 /* getint: get next integer from input into *pn */
 int getint(int *pn)
 {
-    int c, sign;
+    int c, d, sign;
     
     while (isspace(c = getch()))  /* skip white space */
         ;
@@ -51,11 +54,14 @@ int getint(int *pn)
     
     if (c == '+' || c == '-')
     {
+        d = c;               /* remember the sign */
         c = getch();
         if (!isdigit(c))
         {
-            ungetch(c);
-            return 0;
+            if (c != EOF)
+                ungetch(c);    /* push back non-digit */
+            ungetch(d);        /* push back sign char */
+            return d;
         }
     }
     
@@ -69,10 +75,6 @@ int getint(int *pn)
     return c;
 }
 
-#define BUFSIZE 100
-
-char buf[BUFSIZE];   /* buffer for ungetch */
-int bufp = 0;        /* next free position in buf */
 
 /* get a (possibly pushed back) character */
 int getch(void)
