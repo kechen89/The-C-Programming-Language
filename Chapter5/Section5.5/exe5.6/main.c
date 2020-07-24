@@ -11,14 +11,19 @@
 int getline_ptr(char *s, int lim);
 
 int getline_kr(char s[], int lim);
-
+int atoi_kr(char s[]);
 
 int main()
 {
     int len;
     char line[MAXLINE];
-    while ( (len = getline_ptr(line, MAXLINE)) > 0 )
-        printf("The input line is %s  its length is %d \n", line, len);
+    //while ( (len = getline_ptr(line, MAXLINE)) > 0 )
+    //    printf("The input line is %s  its length is %d \n", line, len);
+    
+    char s[MAXLINE];
+    printf("Enter a string of integers \n");
+    scanf("%s", s);
+    printf("Convert to integer %d \n", atoi_kr(s));
     
     return 0;
 }
@@ -56,3 +61,24 @@ int getline_kr(char s[], int lim)
     return i;
 }
 
+int atoi_kr(char s[])
+{
+    int sign = 1, i, mul;
+    
+    i = 0;
+    if (s[i] == '-')
+    {
+        sign = -1;
+        i++;
+    }
+    else if (s[i] == '+')
+    {
+        sign = 1;
+        i++;
+    }
+    
+    for (mul = 0; s[i] != '\0'; i++)
+        mul = 10 * mul + s[i] - '0';
+    
+    return sign * mul;
+}
