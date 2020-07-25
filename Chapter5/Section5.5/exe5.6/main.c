@@ -11,6 +11,8 @@
 
 int getline_ptr(char *s, int lim);
 int atoi_ptr(char *s);
+void itoa_ptr(char *s, int n);
+void reverse_ptr(char *s);
 
 int getline_kr(char s[], int lim);
 int atoi_kr(char s[]);
@@ -31,7 +33,8 @@ int main()
     
     printf("Enter an integer \n");
     scanf("%d", &n);
-    itoa_kr(s, n);
+    //itoa_kr(s, n);
+    itoa_ptr(s, n);
     printf("Convert integer to string %s \n", s);
     
     return 0;
@@ -110,6 +113,30 @@ int atoi_kr(char s[])
     return sign * n;
 }
 
+void itoa_ptr(char *s, int n)
+{
+    int sign, i;
+    char *sbeg = s;
+    
+    sign = (n < 0) ? -1 : 1;
+    
+    n = sign * n;
+    
+    while (n != 0)
+    {
+        *s++ = n % 10 + '0';
+        n /= 10;
+    }
+ 
+    if (sign == -1)
+    {
+        *s++ = '-';
+    }
+    *s = '\0';
+       
+    reverse_ptr(sbeg);
+}
+
 void itoa_kr(char s[], int n)
 {
     int sign, i;
@@ -139,8 +166,8 @@ void itoa_kr(char s[], int n)
 void reverse_kr(char s[])
 {
     int i, j;
-    char c;
-    
+    int c;
+    printf("length %lu\n",strlen(s));
     for (i = 0, j = strlen(s) - 1; i < j; i++, j--)
     {
         c = s[i];
@@ -148,3 +175,18 @@ void reverse_kr(char s[])
         s[j] = c;
     }
 }
+
+void reverse_ptr(char *s)
+{
+    int c;
+    char *t;
+    
+    printf("length %lu\n",strlen(s));
+    for (t = s + strlen(s) - 1; s < t; s++, t--)
+    {
+        c = *s;
+        *s = *t;
+        *t = c;
+    }
+}
+
