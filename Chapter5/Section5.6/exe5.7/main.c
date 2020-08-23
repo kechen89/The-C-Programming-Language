@@ -20,8 +20,8 @@ void qsort_kr(char *lineptr[], int left, int right);
 int main()
 {
     int nlines;              /* number of input lines read */
-    char p[MAXLINES * MAXLEN];
-    if ( (nlines = readlines(lineptr, p, MAXLINES)) >= 0)
+    char lineArray[MAXLINES * MAXLEN];
+    if ( (nlines = readlines(lineptr, lineArray, MAXLINES)) >= 0)
     {
         qsort_kr(lineptr, 0, nlines - 1);
         writelines(lineptr, nlines);
@@ -41,17 +41,18 @@ int readlines(char *lineptr[], char *p, int maxlines)
 {
     int len, nlines;
     char line[MAXLEN];
+    char *linestop = p + MAXLINES * MAXLEN;
     
     nlines = 0;
-    while ( (len = get_line(line, MAXLEN)) > 0 )
+    while ( (len = get_line(line, MAXLEN)) > 0 || p + len > linestop)
         if (nlines >= maxlines)
             return -1;
         else
         {
             line[len - 1] = '\0';   /* delete newline */
-            strcpy(&p[nlines * MAXLEN], line);
-            lineptr[nlines] = &p[nlines * MAXLEN];
-            nlines++;
+            strcpy(p, line);
+            lineptr[nlines++] = p;
+            p += len;
         }
     return nlines;
 }
