@@ -2,18 +2,18 @@
 /* Shell sort */
 
 
-void Shell_sort(int a[], int n);
+void ShellSort(int a[], int n);
 
 int main()
 {
     int a[17] = {8, 3, 9, 6, 0, 5, 8, 2, 5, 7, 2, 3, 7, 7, 10, 9, 0};
-    Shell_sort(a, 17);
+    ShellSort(a, 17);
     for (int i = 0; i < 17; i++)
         printf("%d\n", a[i]);
     return 0;
 }
 
-void Shell_sort(int a[], int n)
+void ShellSort(int a[], int n)
 {
     int i, j, tmp, gap;
     
