@@ -62,37 +62,30 @@ int main()
         }
     }
    
+    return 0;
 }
 
 int getop(char *operandString)
 {
     int i, c;
-    while ((c = getchar()) == ' ' || c == '\t' )
+    while ((operandString[0] = c = getch()) == ' ' || c == '\t' )
         ;
 
-    if (!isdigit(c))
-        return c;
-
-    i = 0;
+    i = 1;
     operandString[i] = '\0';
     
-    while (isdigit(c))
-    {
-        operandString[i++] = c;
-        c = getch();
-    }
+    if (!isdigit(c) && c != '.')
+        return c;
+    
+    i = 0;
+    if ( isdigit(c) )
+        while ( isdigit( operandString[++i] = c = getch() ) )
+            ;
     
     if (c == '.')
-        operandString[i++] = c;
-    
-    while (isdigit(c))
-    {
-        operandString[i++] = c;
-        c= getch();
-        
-    }
-    
-    operandString[i] = '\0';
+        while ( isdigit( operandString[++i] = c = getch() ) )
+        ;
+    operandString[++i] = '\0';
     
     if (c != EOF)
         ungetch(c);
@@ -121,9 +114,17 @@ void push(double value)
 {
     if (sp < MAXOP)
         stack[sp++] = value;
+    else
+        printf("error: stack is full\n");
 }
 
 double pop()
 {
-    return sp > 0 ? stack[--sp] : printf("error: the stack is empty\n");
+    if (sp > 0)
+        return stack[--sp];
+    else
+    {
+        printf("error: the stack is empty\n");
+        return 0.0;
+    }
 }
