@@ -85,7 +85,7 @@ int getop(char *operandString)
     if (c == '.')
         while ( isdigit( operandString[++i] = c = getch() ) )
         ;
-    operandString[++i] = '\0';
+    operandString[i] = '\0';
     
     if (c != EOF)
         ungetch(c);
